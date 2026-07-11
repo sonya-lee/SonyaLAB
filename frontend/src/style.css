@@ -1,0 +1,84 @@
+:root {
+  font-family: Inter, Pretendard, Arial, sans-serif;
+  color: #1f2937;
+  background: #f5f7fb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  font: inherit;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+.hero {
+  margin-bottom: 36px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: #64748b;
+}
+
+h1 {
+  margin: 8px 0 12px;
+  font-size: clamp(40px, 8vw, 72px);
+  line-height: 1;
+}
+
+.hero > p:last-child {
+  max-width: 680px;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #475569;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  padding: 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 12px 35px rgba(15, 23, 42, 0.06);
+}
+
+.card h2 {
+  margin-top: 0;
+}
+
+.card p {
+  min-height: 52px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+.card button {
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+}
+
+.error {
+  color: #b91c1c;
+}
