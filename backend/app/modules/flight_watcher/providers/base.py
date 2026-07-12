@@ -1,5 +1,11 @@
 from typing import Protocol
 
+from app.modules.flight_watcher.models import FlightPriceObservationCreate, FlightWatch
+
+
 class FlightSearchProvider(Protocol):
-    async def search(self, *, origin: str, destination: str, departure_date: str) -> list[dict]:
-        ...
+    name: str
+    minimum_interval_minutes: int
+
+    async def search(self, watch: FlightWatch) -> list[FlightPriceObservationCreate]: ...
+    async def health_check(self) -> tuple[bool, str | None]: ...

@@ -1,49 +1,19 @@
 # Architecture
 
 ```text
-Frontend
-   |
-   v
-FastAPI
-   |
-   +-- Flight Watcher
-   |     +-- Search Provider
-   |     +-- Price History
-   |     +-- Drop Detector
-   |
-   +-- Paper Explorer
-   |     +-- Paper Provider
-   |     +-- Ranking
-   |     +-- Summary Generator
-   |
-   +-- Notification Service
-   |
-   +-- Scheduler
+Vue :5175 ─proxy─> FastAPI :8002 ─> PostgreSQL localhost:55432
+                         │
+                         ├─ flight_watcher ─ provider factory
+                         ├─ paper_explorer ─ provider factory
+                         ├─ internal notification events
+                         └─ scheduler API/history
+
+Independent scheduler process ─> flight_collection job
+                              └─> paper_collection job
 ```
 
-## Sonya 연동 방식
+Frontend, backend, scheduler, PostgreSQL은 각각 독립 프로세스입니다. Backend 시작 시 scheduler를 등록하지 않으므로 uvicorn worker/reload 수와 무관하게 중복 scheduler가 생기지 않습니다.
 
-```text
-Sonya Lab
-  └─ notification event
-       ├─ Sonya OS: Windows popup
-       └─ Sonya Life: 모바일 웹 기록 및 대시보드
-```
+현재 인증은 `SINGLE_USER_ID=local-user`를 주입합니다. 모든 사용자 소유 테이블은 `user_id`를 가지며 service 함수는 인증 공급자가 아닌 user ID만 받습니다. 향후 공통 인증 API가 user ID를 제공하도록 교체할 수 있습니다.
 
-권장 이벤트 예시:
-
-```json
-{
-  "event_type": "flight_price_drop",
-  "source": "sonya-lab",
-  "created_at": "2026-07-11T20:00:00+09:00",
-  "title": "도쿄 항공권 가격 하락",
-  "message": "최근 기준 가격보다 31.2% 저렴합니다.",
-  "data": {
-    "origin": "ICN",
-    "destination": "NRT",
-    "current_price_krw": 289000,
-    "baseline_price_krw": 420000
-  }
-}
-```
+다른 Sonya 저장소를 import하거나 DB를 읽지 않습니다. 통합은 향후 공통 notification/auth 인터페이스로만 수행합니다.

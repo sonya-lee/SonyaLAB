@@ -1,14 +1,21 @@
+name: sonya-lab
+
 services:
   postgres:
     image: postgres:17
     environment:
       POSTGRES_DB: sonya_lab
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: sonya_lab_app
+      POSTGRES_PASSWORD: sonya_lab_dev
     ports:
-      - "5432:5432"
+      - "55432:5432"
     volumes:
       - sonya_lab_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sonya_lab_app -d sonya_lab"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
 
 volumes:
   sonya_lab_pgdata:

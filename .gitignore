@@ -10,6 +10,9 @@ dist/
 
 # Environment
 .env
+backend/data/
+runtime/
+logs/
 
 # IDE
 .vscode/
