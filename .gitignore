@@ -25,3 +25,7 @@ Thumbs.db
 # Local data
 data/
 *.db
+
+# Exported source archives
+SonyaLAB-source.zip
+*.pid
